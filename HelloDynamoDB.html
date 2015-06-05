@@ -5,85 +5,125 @@
     <script src="js/aws-sdk.min.js"></script>
 </head>
 <body>
-    <h1> Amazon DynamoDB Hello World</h1>
+    <h1> AWS DynamoDB Hello World</h1>
+	<h2>AWS SDK for JavaScript v2.1.33</h2>
 
 While it's true, Amazon provides detailed documentation for DynamoDB, unfortunately the code snippets are incomplete, inconsistent and may contain errors. In the spirit of cutting through the confusion, here's a simple DynamoDB example.
  
 <script type="text/javascript">
 
 
-'use strict';
+/*
+-----------------------------------------------------------------
+AWS configure
 
-var time = moment().format('MM DD YYYY HH mm');
+Note: this is a simple experiement for demonstration
+purposes only. Do not include the secrret key in 
+an actual production environment.
+
+-----------------------------------------------------------------
+*/
+
 
 AWS.config.update({accessKeyId: 'AKIAJUPWRIYYQGDB6AFA', secretAccessKey: 'I8Z5tXI5OdRk0SPQKfNY7PlmXGcM8o1vuZAO20xB'});
 
- // Configure your region
- AWS.config.region = 'us-west-2';  //oregon
 
+// Configure the region
+AWS.config.region = 'us-west-2';  //us-west-2 is Oregon
+
+//create the ddb object
 var ddb = new AWS.DynamoDB();
 
 
 
+/*
+-----------------------------------------------------------------
+Update the Table
+
+-----------------------------------------------------------------
+*/
+
+//update the table with this data
 var params = {
   Key: {
-    date: {S: time},
-    channel: {S: '22222222222222223'}
+    name: {S: 'John Mayo-Smith'},
+    city: {S: 'New York'}
   },
   AttributeUpdates: {
-    elephant: {
+    food: {
       Action: 'PUT',
-      Value: {S: '3333'}
-    },
-    c: {
-      Action: 'PUT',
-      Value: {S: "Hello World dquotes"}
+      Value: {S: 'chocolate'}
     }
   },
-  TableName: 'tscalendar',
+  TableName: 'sampletable',
   ReturnValues: 'ALL_NEW'
 };
 
+//update the table
+update();
 
+
+/*
+-----------------------------------------------------------------
+Get Item From the Table
+
+-----------------------------------------------------------------
+*/
+
+//Attribute to read
 var readparams = {
 	
   Key: {
-    date: {S: '06 04 2015 19'},
-    channel: {S: '22222222222222223'}
+    name: {S: 'John Mayo-Smith'},
+    city: {S: 'New York'}
   },
-  AttributesToGet: ['elephant'],
-  TableName: 'tscalendar'
+  AttributesToGet: ['food'],
+  TableName: 'sampletable'
 };
 
-update();
+//get the item
 read();
 
-document.write('JSON.stringify(data.Item.elephant.S)');
+
+
+/*
+-----------------------------------------------------------------
+function update()
+Description: Calls updateItem which is part of the AWS Javascript
+SDK.
+
+Returns: JSON object (this object is stringifyed to make it easier
+to see the contents in the javascript console)
+
+-----------------------------------------------------------------
+*/
 
 function update(){
-ddb.updateItem(params, function(err, data) {
-  if (err) { return console.log(err); }
-  console.log("Here is the Data: " + data);
+	ddb.updateItem(params, function(err, data) {
+		if (err) { return console.log(err); }
+		console.log("We updated the table with this: " + JSON.stringify(data));
 
-});
+	});
 }
 
+/*
+-----------------------------------------------------------------
+function read()
+Description: Calls getItem which is part of the AWS Javascript
+SDK.
+
+Returns: JSON object (this object is stringifyed to make it easier
+to see the contents in the javascript console)
+
+-----------------------------------------------------------------
+*/
+
 function read(){
-ddb.getItem(readparams, function(err, data) {
-
-	var data2 = '{"name": "mkyong","age": 30,"address": {"streetAddress": "88 8nd Street","city": "New York"},"phoneNumber": [{"type": "home","number": "111 111-1111"},{"type": "fax","number": "222 222-2222"}]}';
-
-//this works	
-var json = JSON.parse(data2);	    
-console.log("read: "+ json.address.streetAddress ); // print the item data
-
-
-console.log("read data item: "+ JSON.stringify(data.Item.elephant.S)); // print the item data
-
-
-	    
-
-
+	ddb.getItem(readparams, function(err, data) {
+		if (err) { return console.log(err); }
+		console.log(": " + data);		
+		
+	console.log("John's favorite food is: "+ JSON.stringify(data.Item.food.S)); // print the item data
 
 });
 
