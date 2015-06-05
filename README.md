@@ -7,8 +7,8 @@ While it's true, Amazon provides detailed documentation for DynamoDB, unfortunat
 
 Switch out the keys for your own.
 
-This is a demo only. Dont hardcode secret keys in javascript.
+This is a demo only. Don't hardcode secret keys in javascript.
 
-Review the screenshot for several AWS gotcha's.
+Review the screenshots for several AWS gotcha's.
 
 
