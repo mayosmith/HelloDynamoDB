@@ -8,7 +8,7 @@
     <h1> AWS DynamoDB Hello World</h1>
 	<h2>AWS SDK for JavaScript v2.1.33</h2>
 
-While it's true, Amazon provides detailed documentation for DynamoDB, unfortunately the code snippets are incomplete, inconsistent and may contain errors. In the spirit of cutting through the confusion, here's a simple DynamoDB example.
+While it's true, Amazon provides detailed documentation for DynamoDB, unfortunately the code snippets are incomplete, inconsistent and may contain errors. In the spirit of cutting through the confusion, here's a really simple DynamoDB example, that actually works.
  
 <script type="text/javascript">
 
@@ -18,8 +18,9 @@ While it's true, Amazon provides detailed documentation for DynamoDB, unfortunat
 AWS configure
 
 Note: this is a simple experiement for demonstration
-purposes only. Do not include the secrret key in 
-an actual production environment.
+purposes only. Do not include the secret key in 
+an actual production environment, because, then, it wont
+be secret anymore...
 
 -----------------------------------------------------------------
 */
@@ -65,12 +66,12 @@ update();
 
 /*
 -----------------------------------------------------------------
-Get Item From the Table
+Get Item from the Table
 
 -----------------------------------------------------------------
 */
 
-//Attribute to read
+//attribute to read
 var readparams = {
 	
   Key: {
@@ -92,8 +93,8 @@ function update()
 Description: Calls updateItem which is part of the AWS Javascript
 SDK.
 
-Returns: JSON object (this object is stringifyed to make it easier
-to see the contents in the javascript console)
+Returns: JSON object (the object is stringifyed so we can see 
+what's going on in the javascript console)
 
 -----------------------------------------------------------------
 */
@@ -112,8 +113,8 @@ function read()
 Description: Calls getItem which is part of the AWS Javascript
 SDK.
 
-Returns: JSON object (this object is stringifyed to make it easier
-to see the contents in the javascript console)
+Returns: JSON object (the object is stringifyed so we can see 
+what's going on in the javascript console)
 
 -----------------------------------------------------------------
 */
