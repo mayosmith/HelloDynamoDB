@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Amazon DynamoDB Hello World</title>
+    <script src="js/aws-sdk.min.js"></script>
+</head>
+<body>
+    <h1> Amazon DynamoDB Hello World</h1>
+
+While it's true, Amazon provides detailed documentation for DynamoDB, unfortunately the code snippets are incomplete, inconsistent and may contain errors. In the spirit of cutting through the confusion, here's a simple DynamoDB example.
+ 
+<script type="text/javascript">
+
+
+'use strict';
+
+var time = moment().format('MM DD YYYY HH mm');
+
+AWS.config.update({accessKeyId: 'AKIAJUPWRIYYQGDB6AFA', secretAccessKey: 'I8Z5tXI5OdRk0SPQKfNY7PlmXGcM8o1vuZAO20xB'});
+
+ // Configure your region
+ AWS.config.region = 'us-west-2';  //oregon
+
+var ddb = new AWS.DynamoDB();
+
+
+
+var params = {
+  Key: {
+    date: {S: time},
+    channel: {S: '22222222222222223'}
+  },
+  AttributeUpdates: {
+    elephant: {
+      Action: 'PUT',
+      Value: {S: '3333'}
+    },
+    c: {
+      Action: 'PUT',
+      Value: {S: "Hello World dquotes"}
+    }
+  },
+  TableName: 'tscalendar',
+  ReturnValues: 'ALL_NEW'
+};
+
+
+var readparams = {
+	
+  Key: {
+    date: {S: '06 04 2015 19'},
+    channel: {S: '22222222222222223'}
+  },
+  AttributesToGet: ['elephant'],
+  TableName: 'tscalendar'
+};
+
+update();
+read();
+
+document.write('JSON.stringify(data.Item.elephant.S)');
+
+function update(){
+ddb.updateItem(params, function(err, data) {
+  if (err) { return console.log(err); }
+  console.log("Here is the Data: " + data);
+
+});
+}
+
+function read(){
+ddb.getItem(readparams, function(err, data) {
+
+	var data2 = '{"name": "mkyong","age": 30,"address": {"streetAddress": "88 8nd Street","city": "New York"},"phoneNumber": [{"type": "home","number": "111 111-1111"},{"type": "fax","number": "222 222-2222"}]}';
+
+//this works	
+var json = JSON.parse(data2);	    
+console.log("read: "+ json.address.streetAddress ); // print the item data
+
+
+console.log("read data item: "+ JSON.stringify(data.Item.elephant.S)); // print the item data
+
+
+	    
+
+
+
+});
+
+}
+
+</script>
+</body>
+</html>
